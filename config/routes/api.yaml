@@ -1,0 +1,9 @@
+get_users:
+    path: users
+    defaults: { _controller: 'App\Controller\UserController::getUsersAction' }
+    methods: [GET]
+
+get_user:
+    path: users/{id}
+    defaults: { _controller: 'App\Controller\UserController::getUserAction' }
+    methods: [GET]
