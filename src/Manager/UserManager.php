@@ -83,6 +83,12 @@ class UserManager
 
         $usersFiltered = [];
 
+        foreach ($filters as $filterName => $filterValue) {
+            if (!$filterValue) {
+                unset($filters[$filterName]);
+            }
+        }
+
         if ($filters) {
             /** @var User $user */
             foreach ($users as $user) {
