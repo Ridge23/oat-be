@@ -3,9 +3,14 @@
 namespace App\Entity;
 
 use JsonSerializable;
+use App\Exception\IncorrectUserFieldValueException;
 
 class User implements JsonSerializable
 {
+    const GENDER_MALE = 'male';
+
+    const GENDER_FEMALE = 'female';
+
     /** @var string */
     private $login = '';
 
@@ -123,9 +128,14 @@ class User implements JsonSerializable
 
     /**
      * @param string $gender
+     *
+     * @throws IncorrectUserFieldValueException
      */
     public function setGender($gender)
     {
+        if ($gender !== self::GENDER_FEMALE && $gender !== self::GENDER_MALE) {
+            throw new IncorrectUserFieldValueException();
+        }
         $this->gender = $gender;
     }
 
@@ -139,9 +149,14 @@ class User implements JsonSerializable
 
     /**
      * @param string $email
+     *
+     * @throws IncorrectUserFieldValueException
      */
     public function setEmail($email)
     {
+        if (!$this->isValidEmail($email)) {
+            throw new IncorrectUserFieldValueException();
+        }
         $this->email = $email;
     }
 
@@ -194,5 +209,9 @@ class User implements JsonSerializable
             'picture' => $this->picture,
             'address' => $this->address
         ];
+    }
+
+    private function isValidEmail($email){
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
     }
 }

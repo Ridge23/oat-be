@@ -3,6 +3,7 @@
 namespace App\DataAccess;
 
 use App\Entity\User;
+use App\Exception\IncorrectUserFieldValueException;
 
 /**
  * Class UsersJsonDataAccess
@@ -16,6 +17,8 @@ class UsersJsonDataAccess extends AbstractDataAccess
      * @param string $content
      *
      * @return array
+     *
+     * @throws IncorrectUserFieldValueException
      */
     public function serializeContent($content)
     {

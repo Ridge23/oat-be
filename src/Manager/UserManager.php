@@ -28,8 +28,7 @@ class UserManager
 
     public function getUsers($filter = '', $limit = 10, $offset = 0)
     {
-       // $users = $this->importUsersFromCsv();
-
+        $users = $this->importUsersFromCsv();
         $users = $this->importUsersFromJson();
 
         return [];
