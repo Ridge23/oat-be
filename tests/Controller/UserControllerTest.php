@@ -131,6 +131,9 @@ class UserControllerTest extends WebTestCase
         }
     }
 
+    /**
+     * @covers UserController::getUserAction()
+     */
     public function testGetUser() {
         $this->client->request('GET', '/api/v1/users/10');
 
