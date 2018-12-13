@@ -19,7 +19,7 @@ class UsersCsvDataAccess extends AbstractDataAccess
     public function serializeContent($content)
     {
         $entitiesArray = [];
-        $contentArray =  str_getcsv($content, "\n");
+        $contentArray = str_getcsv($content, "\n");
 
         $titlesRow = str_getcsv(array_shift($contentArray), ",");
 
@@ -28,16 +28,18 @@ class UsersCsvDataAccess extends AbstractDataAccess
 
             $newUser = new User();
 
-            $newUser->setId($id);
-            $newUser->setAddress($row[array_search('address', $titlesRow)]);
-            $newUser->setEmail($row[array_search('email', $titlesRow)]);
-            $newUser->setFirstName($row[array_search('firstname', $titlesRow)]);
-            $newUser->setLastName($row[array_search('lastname', $titlesRow)]);
-            $newUser->setGender($row[array_search('gender', $titlesRow)]);
-            $newUser->setLogin($row[array_search('login', $titlesRow)]);
-            $newUser->setPassword($row[array_search('password', $titlesRow)]);
-            $newUser->setTitle($row[array_search('title', $titlesRow)]);
-            $newUser->setPicture($row[array_search('picture', $titlesRow)]);
+            $newUser->populateEntity(
+                $id,
+                $row[array_search('login', $titlesRow)],
+                $row[array_search('password', $titlesRow)],
+                $row[array_search('title', $titlesRow)],
+                $row[array_search('lastname', $titlesRow)],
+                $row[array_search('firstname', $titlesRow)],
+                $row[array_search('gender', $titlesRow)],
+                $row[array_search('email', $titlesRow)],
+                $row[array_search('picture', $titlesRow)],
+                $row[array_search('address', $titlesRow)]
+            );
 
             $entitiesArray[] = $newUser;
         }

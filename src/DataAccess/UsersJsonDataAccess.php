@@ -28,16 +28,18 @@ class UsersJsonDataAccess extends AbstractDataAccess
         foreach ($contentArray as $id => $userJson) {
             $newUser = new User();
 
-            $newUser->setId($id);
-            $newUser->setAddress($userJson['address']);
-            $newUser->setEmail($userJson['email']);
-            $newUser->setFirstName($userJson['firstname']);
-            $newUser->setLastName($userJson['lastname']);
-            $newUser->setGender($userJson['gender']);
-            $newUser->setLogin($userJson['login']);
-            $newUser->setPassword($userJson['password']);
-            $newUser->setTitle($userJson['title']);
-            $newUser->setPicture($userJson['picture']);
+            $newUser->populateEntity(
+                $id,
+                $userJson['login'],
+                $userJson['password'],
+                $userJson['title'],
+                $userJson['lastname'],
+                $userJson['firstname'],
+                $userJson['gender'],
+                $userJson['email'],
+                $userJson['picture'],
+                $userJson['address']
+            );
 
             $entitiesArray[] = $newUser;
         }

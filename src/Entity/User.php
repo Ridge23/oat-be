@@ -214,6 +214,38 @@ class User extends AbstractEntity implements JsonSerializable
     }
 
     /**
+     * @param string $id
+     * @param string $login
+     * @param string $password
+     * @param string $title
+     * @param string $lastname
+     * @param string $firstname
+     * @param string $gender
+     * @param string $email
+     * @param string $picture
+     * @param string $address
+     *
+     * @return $this
+     *
+     * @throws IncorrectUserFieldValueException
+     */
+    public function populateEntity($id, $login, $password, $title, $lastname, $firstname, $gender, $email, $picture, $address)
+    {
+        $this->setId($id);
+        $this->setLogin($login);
+        $this->setPassword($password);
+        $this->setTitle($title);
+        $this->setLastName($lastname);
+        $this->setFirstName($firstname);
+        $this->setGender($gender);
+        $this->setEmail($email);
+        $this->setPicture($picture);
+        $this->setAddress($address);
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function jsonSerializeShort()
