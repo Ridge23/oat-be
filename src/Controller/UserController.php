@@ -27,17 +27,21 @@ class UserController extends AbstractController
         $this->userManager = $userManager;
     }
 
+    /**
+     * @param Request $request
+     * 
+     * @return JsonResponse
+     */
     public function getUsersAction(Request $request)
     {
         $statusCode = $this->defaultResponseCode;
-        $result = [];
 
         try {
             $limit = (int)$request->query->get('limit');
             $offset = (int)$request->query->get('offset');
             $filter = (int)$request->query->get('filter');
 
-            $this->userManager->getUsers();
+            $result = $this->userManager->getUsers($filter, $limit, $offset);
         } catch (Exception $exception) {
             $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
             $result = $exception->getMessage();

@@ -28,10 +28,7 @@ class UserManager
 
     public function getUsers($filter = '', $limit = 10, $offset = 0)
     {
-        $users = $this->importUsersFromCsv();
-        $users = $this->importUsersFromJson();
-
-        return [];
+        return $this->getUsersFromDataSource($filter, $limit, $offset);
     }
 
     public function getUser()
@@ -49,5 +46,12 @@ class UserManager
     private function importUsersFromJson()
     {
         return $this->jsonDataAccess->getEntities();
+    }
+
+    private function getUsersFromDataSource($filter, $limit = 10, $offset = 0)
+    {
+        $users = $this->importUsersFromJson();
+
+        return array_slice($users, $offset, $limit);
     }
 }
