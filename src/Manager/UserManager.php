@@ -5,6 +5,7 @@ namespace App\Manager;
 use App\DataAccess\UsersCsvDataAccess;
 use App\DataAccess\UsersJsonDataAccess;
 use App\Entity\AbstractEntity;
+use App\Entity\User;
 use App\Exception\UserNotFoundException;
 
 class UserManager
@@ -27,9 +28,16 @@ class UserManager
         $this->jsonDataAccess = $jsonDataAccess;
     }
 
-    public function getUsers($filter = '', $limit = 10, $offset = 0)
+    /**
+     * @param array $filters
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return array
+     */
+    public function getUsers($filters = [], $limit = 10, $offset = 0)
     {
-        return $this->getUsersFromDataSource($filter, $limit, $offset);
+        return $this->getUsersFromDataSource($filters, $limit, $offset);
     }
 
     /**
@@ -56,11 +64,28 @@ class UserManager
         return $this->jsonDataAccess->getEntities();
     }
 
-    private function getUsersFromDataSource($filter, $limit = 10, $offset = 0)
+    private function getUsersFromDataSource($filters = [], $limit = 10, $offset = 0)
     {
         $users = $this->importUsersFromJson();
 
-        return array_slice($users, $offset, $limit);
+        $usersFiltered = [];
+
+        if($filters) {
+            /** @var User $user */
+            foreach ($users as $user) {
+                $userJson = $user->jsonSerialize();
+
+                foreach ($filters as $filterName => $filterValue) {
+                    if (strstr($userJson[$filterName], $filterValue)) {
+                        $usersFiltered[] = $user;
+                    }
+                }
+            }
+        } else {
+            $usersFiltered = $users;
+        }
+
+        return array_slice($usersFiltered, $offset, $limit);
     }
 
     /**

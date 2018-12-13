@@ -39,9 +39,12 @@ class UserController extends AbstractController
         try {
             $limit = (int)$request->query->get('limit');
             $offset = (int)$request->query->get('offset');
-            $filter = (int)$request->query->get('filter');
 
-            $result = $this->userManager->getUsers($filter, $limit, $offset);
+            $queryParams = $request->query->all();
+            unset($queryParams['limit']);
+            unset($queryParams['offset']);
+
+            $result = $this->userManager->getUsers($queryParams, $limit, $offset);
         } catch (Exception $exception) {
             $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
             $result = $exception->getMessage();
