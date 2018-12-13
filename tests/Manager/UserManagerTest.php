@@ -2,24 +2,90 @@
 
 namespace App\Tests\Manager;
 
+use App\DataAccess\UsersCsvDataAccess;
+use App\DataAccess\UsersJsonDataAccess;
+use App\Entity\User;
 use App\Manager\UserManager;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 
 class UserManagerTest extends TestCase
 {
-    public function testGetUsers() {
-        $userManager = new UserManager();
+    /**
+     * @covers UserManager::getUsers()
+     */
+    public function testGetUsers()
+    {
+        /** @var UsersCsvDataAccess|PHPUnit_Framework_MockObject_MockObject $csvDataSourceMock */
+        $csvDataSourceMock = $this->getMockBuilder(UsersCsvDataAccess::class)->disableOriginalConstructor()->getMock();
+        /** @var UsersJsonDataAccess|PHPUnit_Framework_MockObject_MockObject $jsonDataSourceMock */
+        $jsonDataSourceMock = $this->getMockBuilder(UsersJsonDataAccess::class)->disableOriginalConstructor()->getMock();
+
+        $userOne = new User();
+        $userOne->setId(0);
+        $userOne->setPicture('some-picture');
+        $userOne->setTitle('mr');
+        $userOne->setLogin('pavel');
+        $userOne->setPassword('some-password');
+        $userOne->setGender('male');
+        $userOne->setFirstName('pavel');
+        $userOne->setLastName('khrebto');
+        $userOne->setEmail('pavel.khrebto@gmail.com');
+
+        $userTwo = new User();
+        $userTwo->setId(0);
+        $userTwo->setPicture('some-picture');
+        $userTwo->setTitle('mrs');
+        $userTwo->setLogin('agness');
+        $userTwo->setPassword('some-password');
+        $userTwo->setGender('female');
+        $userTwo->setFirstName('agness');
+        $userTwo->setLastName('orakyan');
+        $userTwo->setEmail('agness.orakyan@gmail.com');
+
+        $jsonDataSourceMock->expects($this->once())->method('getEntities')->willReturn(
+            [
+                $userOne, $userTwo
+            ]
+        );
+        $userManager = new UserManager($csvDataSourceMock, $jsonDataSourceMock);
 
         $result = $userManager->getUsers();
 
-        $this->assertEquals([], $result);
+        $this->assertEquals([
+            $userOne, $userTwo
+        ], $result);
     }
 
-    public function testGetUser() {
-        $userManager = new UserManager();
+    /**
+     * @covers UserManager::getUser()
+     */
+    public function testGetUser()
+    {
+        /** @var UsersCsvDataAccess|PHPUnit_Framework_MockObject_MockObject $csvDataSourceMock */
+        $csvDataSourceMock = $this->getMockBuilder(UsersCsvDataAccess::class)->disableOriginalConstructor()->getMock();
+        /** @var UsersJsonDataAccess|PHPUnit_Framework_MockObject_MockObject $jsonDataSourceMock */
+        $jsonDataSourceMock = $this->getMockBuilder(UsersJsonDataAccess::class)->disableOriginalConstructor()->getMock();
 
-        $result = $userManager->getUser();
+        $userManager = new UserManager($csvDataSourceMock, $jsonDataSourceMock);
 
-        $this->assertEquals([], $result);
+        $userOne = new User();
+        $userOne->setId(0);
+        $userOne->setPicture('some-picture');
+        $userOne->setTitle('mr');
+        $userOne->setLogin('pavel');
+        $userOne->setPassword('some-password');
+        $userOne->setGender('male');
+        $userOne->setFirstName('pavel');
+        $userOne->setLastName('khrebto');
+        $userOne->setEmail('pavel.khrebto@gmail.com');
+
+        $jsonDataSourceMock->expects($this->once())->method('getEntityById')->with(10)->willReturn(
+            $userOne
+        );
+
+        $result = $userManager->getUser(10);
+
+        $this->assertEquals($userOne, $result);
     }
 }
