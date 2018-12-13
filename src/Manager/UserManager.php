@@ -37,7 +37,15 @@ class UserManager
      */
     public function getUsers(array $filters = [], $limit = 10, $offset = 0)
     {
-        return $this->getUsersFromDataSource($filters, $limit, $offset);
+        $users = $this->getUsersFromDataSource($filters, $limit, $offset);
+        $usersJson = [];
+
+        /** @var User $user */
+        foreach ($users as $user) {
+            $usersJson[] = $user->jsonSerializeShort();
+        }
+
+        return $usersJson;
     }
 
     /**
@@ -70,7 +78,7 @@ class UserManager
 
         $usersFiltered = [];
 
-        if($filters) {
+        if ($filters) {
             /** @var User $user */
             foreach ($users as $user) {
                 $userJson = $user->jsonSerialize();

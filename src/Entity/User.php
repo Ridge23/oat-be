@@ -213,6 +213,18 @@ class User extends AbstractEntity implements JsonSerializable
         ];
     }
 
+    /**
+     * @return array
+     */
+    public function jsonSerializeShort()
+    {
+        return [
+            'id' => $this->id,
+            'lastname' => $this->lastName,
+            'firstname' => $this->firstName
+        ];
+    }
+
     private function isValidEmail($email){
         return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
     }

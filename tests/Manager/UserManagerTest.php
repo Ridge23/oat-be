@@ -53,7 +53,7 @@ class UserManagerTest extends TestCase
         $result = $userManager->getUsers();
 
         $this->assertEquals([
-            $userOne, $userTwo
+            ['id' => 0, 'firstname' => 'pavel', 'lastname' => 'khrebto'], ['id' => 0, 'firstname' => 'agness', 'lastname' => 'orakyan']
         ], $result);
     }
 

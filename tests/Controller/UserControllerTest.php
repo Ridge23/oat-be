@@ -50,12 +50,6 @@ class UserControllerTest extends WebTestCase
             $this->assertGreaterThan(-1, $user['id']);
             $this->assertNotEmpty($user['firstname']);
             $this->assertNotEmpty($user['lastname']);
-            $this->assertNotEmpty($user['email']);
-            $this->assertNotEmpty($user['password']);
-            $this->assertNotEmpty($user['gender']);
-            $this->assertNotEmpty($user['address']);
-            $this->assertNotEmpty($user['picture']);
-            $this->assertNotEmpty($user['title']);
         }
 
         $this->assertEquals(10, count($responseArray));
@@ -85,12 +79,6 @@ class UserControllerTest extends WebTestCase
             $this->assertGreaterThan(-1, $user['id']);
             $this->assertNotEmpty($user['firstname']);
             $this->assertNotEmpty($user['lastname']);
-            $this->assertNotEmpty($user['email']);
-            $this->assertNotEmpty($user['password']);
-            $this->assertNotEmpty($user['gender']);
-            $this->assertNotEmpty($user['address']);
-            $this->assertNotEmpty($user['picture']);
-            $this->assertNotEmpty($user['title']);
         }
 
         $this->assertEquals(5, count($responseArray));
@@ -120,12 +108,6 @@ class UserControllerTest extends WebTestCase
             $this->assertGreaterThan(-1, $user['id']);
             $this->assertNotEmpty($user['firstname']);
             $this->assertNotEmpty($user['lastname']);
-            $this->assertNotEmpty($user['email']);
-            $this->assertNotEmpty($user['password']);
-            $this->assertNotEmpty($user['gender']);
-            $this->assertNotEmpty($user['address']);
-            $this->assertNotEmpty($user['picture']);
-            $this->assertNotEmpty($user['title']);
 
             $this->assertContains('foster', $user['lastname']);
         }
