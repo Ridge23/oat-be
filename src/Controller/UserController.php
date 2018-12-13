@@ -37,8 +37,8 @@ class UserController extends AbstractController
         $statusCode = $this->defaultResponseCode;
 
         try {
-            $limit = (int)$request->query->get('limit');
-            $offset = (int)$request->query->get('offset');
+            $limit = (int)$request->query->get('limit', 10);
+            $offset = (int)$request->query->get('offset', 0);
 
             $queryParams = $request->query->all();
             unset($queryParams['limit']);

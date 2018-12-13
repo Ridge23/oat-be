@@ -35,7 +35,7 @@ class UserManager
      *
      * @return array
      */
-    public function getUsers($filters = [], $limit = 10, $offset = 0)
+    public function getUsers(array $filters = [], $limit = 10, $offset = 0)
     {
         return $this->getUsersFromDataSource($filters, $limit, $offset);
     }
@@ -64,7 +64,7 @@ class UserManager
         return $this->jsonDataAccess->getEntities();
     }
 
-    private function getUsersFromDataSource($filters = [], $limit = 10, $offset = 0)
+    private function getUsersFromDataSource(array $filters = [], $limit = 10, $offset = 0)
     {
         $users = $this->importUsersFromJson();
 
