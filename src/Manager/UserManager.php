@@ -45,7 +45,12 @@ class UserManager
             $usersJson[] = $user->jsonSerializeShort();
         }
 
-        return $usersJson;
+        $totalRows = count($this->importUsersFromJson());
+
+        return [
+            'data' => $usersJson,
+            'total' => $totalRows
+        ];
     }
 
     /**

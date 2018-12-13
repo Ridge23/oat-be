@@ -43,7 +43,7 @@ class UserManagerTest extends TestCase
         $userTwo->setLastName('orakyan');
         $userTwo->setEmail('agness.orakyan@gmail.com');
 
-        $jsonDataSourceMock->expects($this->once())->method('getEntities')->willReturn(
+        $jsonDataSourceMock->expects($this->exactly(2))->method('getEntities')->willReturn(
             [
                 $userOne, $userTwo
             ]
@@ -53,7 +53,19 @@ class UserManagerTest extends TestCase
         $result = $userManager->getUsers();
 
         $this->assertEquals([
-            ['id' => 0, 'firstname' => 'pavel', 'lastname' => 'khrebto'], ['id' => 0, 'firstname' => 'agness', 'lastname' => 'orakyan']
+            'data' => [
+                [
+                    'id' => 0,
+                    'firstname' => 'pavel',
+                    'lastname' => 'khrebto'
+                ],
+                [
+                    'id' => 0,
+                    'firstname' => 'agness',
+                    'lastname' => 'orakyan'
+                ]
+            ],
+            'total' => 2
         ], $result);
     }
 

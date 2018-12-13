@@ -46,13 +46,13 @@ class UserControllerTest extends WebTestCase
 
         $responseArray = json_decode($response, true);
 
-        foreach ($responseArray as $user) {
+        foreach ($responseArray['data'] as $user) {
             $this->assertGreaterThan(-1, $user['id']);
             $this->assertNotEmpty($user['firstname']);
             $this->assertNotEmpty($user['lastname']);
         }
 
-        $this->assertEquals(10, count($responseArray));
+        $this->assertEquals(10, count($responseArray['data']));
     }
 
     /**
@@ -75,13 +75,13 @@ class UserControllerTest extends WebTestCase
 
         $responseArray = json_decode($response, true);
 
-        foreach ($responseArray as $user) {
+        foreach ($responseArray['data'] as $user) {
             $this->assertGreaterThan(-1, $user['id']);
             $this->assertNotEmpty($user['firstname']);
             $this->assertNotEmpty($user['lastname']);
         }
 
-        $this->assertEquals(5, count($responseArray));
+        $this->assertEquals(5, count($responseArray['data']));
     }
 
     /**
@@ -104,7 +104,7 @@ class UserControllerTest extends WebTestCase
 
         $responseArray = json_decode($response, true);
 
-        foreach ($responseArray as $user) {
+        foreach ($responseArray['data'] as $user) {
             $this->assertGreaterThan(-1, $user['id']);
             $this->assertNotEmpty($user['firstname']);
             $this->assertNotEmpty($user['lastname']);
