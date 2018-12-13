@@ -43,7 +43,7 @@ class UserManagerTest extends TestCase
         $userTwo->setLastName('orakyan');
         $userTwo->setEmail('agness.orakyan@gmail.com');
 
-        $jsonDataSourceMock->expects($this->exactly(2))->method('getEntities')->willReturn(
+        $jsonDataSourceMock->expects($this->exactly(1))->method('getEntities')->willReturn(
             [
                 $userOne, $userTwo
             ]

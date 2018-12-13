@@ -37,7 +37,8 @@ class UserManager
      */
     public function getUsers(array $filters = [], $limit = 10, $offset = 0)
     {
-        $users = $this->getUsersFromDataSource($filters, $limit, $offset);
+        $usersResult = $this->getUsersFromDataSource($filters, $limit, $offset);
+        $users = $usersResult['data'];
         $usersJson = [];
 
         /** @var User $user */
@@ -45,11 +46,9 @@ class UserManager
             $usersJson[] = $user->jsonSerializeShort();
         }
 
-        $totalRows = count($this->importUsersFromJson());
-
         return [
             'data' => $usersJson,
-            'total' => $totalRows
+            'total' => $usersResult['total']
         ];
     }
 
@@ -104,7 +103,10 @@ class UserManager
             $usersFiltered = $users;
         }
 
-        return array_slice($usersFiltered, $offset, $limit);
+        return [
+            'data' => array_slice($usersFiltered, $offset, $limit),
+            'total' => count($usersFiltered)
+        ];
     }
 
     /**
