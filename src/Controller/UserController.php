@@ -29,7 +29,7 @@ class UserController extends AbstractController
 
     /**
      * @param Request $request
-     * 
+     *
      * @return JsonResponse
      */
     public function getUsersAction(Request $request)
@@ -58,7 +58,14 @@ class UserController extends AbstractController
     public function getUserAction($userId = 0)
     {
         $statusCode = $this->defaultResponseCode;
-        $result = [];
+        try {
+            $result = $this->userManager->getUser($userId);
+
+        } catch (Exception $exception) {
+            $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
+            $result = $exception->getMessage();
+        }
+
 
         return new JsonResponse($result, $statusCode);
     }

@@ -25,9 +25,10 @@ class UsersJsonDataAccess extends AbstractDataAccess
         $entitiesArray = [];
         $contentArray = json_decode($content, true);
 
-        foreach ($contentArray as $userJson) {
+        foreach ($contentArray as $id => $userJson) {
             $newUser = new User();
 
+            $newUser->setId($id);
             $newUser->setAddress($userJson['address']);
             $newUser->setEmail($userJson['email']);
             $newUser->setFirstName($userJson['firstname']);

@@ -5,11 +5,12 @@ namespace App\Entity;
 use JsonSerializable;
 use App\Exception\IncorrectUserFieldValueException;
 
-class User implements JsonSerializable
+class User extends AbstractEntity implements JsonSerializable
 {
     const GENDER_MALE = 'male';
 
     const GENDER_FEMALE = 'female';
+
 
     /** @var string */
     private $login = '';
@@ -199,6 +200,7 @@ class User implements JsonSerializable
     public function jsonSerialize()
     {
         return [
+            'id' => $this->id,
             'login' => $this->login,
             'password' => $this->password,
             'title' => $this->title,

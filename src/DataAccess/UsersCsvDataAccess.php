@@ -23,11 +23,12 @@ class UsersCsvDataAccess extends AbstractDataAccess
 
         $titlesRow = str_getcsv(array_shift($contentArray), ",");
 
-        foreach ($contentArray as $userString) {
+        foreach ($contentArray as $id => $userString) {
             $row = str_getcsv($userString, ",");
 
             $newUser = new User();
 
+            $newUser->setId($id);
             $newUser->setAddress($row[array_search('address', $titlesRow)]);
             $newUser->setEmail($row[array_search('email', $titlesRow)]);
             $newUser->setFirstName($row[array_search('firstname', $titlesRow)]);

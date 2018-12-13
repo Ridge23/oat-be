@@ -2,6 +2,9 @@
 
 namespace App\DataAccess;
 
+use App\Entity\AbstractEntity;
+use App\Exception\UserNotFoundException;
+
 /**
  * Class AbstractDataAccess
  *
@@ -36,6 +39,28 @@ abstract class AbstractDataAccess
         $entities = $this->serializeContent($fileContent);
 
         return $entities;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return AbstractEntity
+     *
+     * @throws UserNotFoundException
+     */
+    public function getEntityById($id)
+    {
+        $fileContent = $this->getFileContent();
+        $entities = $this->serializeContent($fileContent);
+
+        /** @var AbstractEntity $entity */
+        foreach ($entities as $entity) {
+            if ($entity->getId() === (int)$id) {
+                return $entity;
+            }
+        }
+
+        throw new UserNotFoundException();
     }
 
     /**

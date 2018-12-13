@@ -2,9 +2,10 @@
 
 namespace App\Manager;
 
-
 use App\DataAccess\UsersCsvDataAccess;
 use App\DataAccess\UsersJsonDataAccess;
+use App\Entity\AbstractEntity;
+use App\Exception\UserNotFoundException;
 
 class UserManager
 {
@@ -31,11 +32,18 @@ class UserManager
         return $this->getUsersFromDataSource($filter, $limit, $offset);
     }
 
-    public function getUser()
+    /**
+     * @param int $id
+     *
+     * @return AbstractEntity
+     *
+     * @throws UserNotFoundException
+     */
+    public function getUser($id)
     {
-        $users = $this->importUsersFromCsv();
+        $user = $this->getUserFromDataSource($id);
 
-        return [];
+        return $user;
     }
 
     private function importUsersFromCsv()
@@ -53,5 +61,17 @@ class UserManager
         $users = $this->importUsersFromJson();
 
         return array_slice($users, $offset, $limit);
+    }
+
+    /**
+     * @param int $userId
+     *
+     * @return AbstractEntity
+     *
+     * @throws UserNotFoundException
+     */
+    private function getUserFromDataSource($userId)
+    {
+        return $this->jsonDataAccess->getEntityById($userId);
     }
 }
