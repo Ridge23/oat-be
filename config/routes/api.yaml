@@ -4,6 +4,6 @@ get_users:
     methods: [GET]
 
 get_user:
-    path: users/{id}
+    path: users/{userId}
     defaults: { _controller: 'App\Controller\UserController::getUserAction' }
     methods: [GET]

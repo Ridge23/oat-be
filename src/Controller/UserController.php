@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Exception;
+use App\Manager\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,17 +14,48 @@ class UserController extends AbstractController
     /** @var int */
     private $defaultResponseCode = Response::HTTP_OK;
 
-    public function getUsersAction()
-    {
-        $statusCode = $this->defaultResponseCode;
+    /** @var UserManager */
+    private $userManager;
 
-        return new JsonResponse([], $statusCode);
+    /**
+     * UserController constructor.
+     *
+     * @param UserManager $userManager
+     */
+    public function __construct(UserManager $userManager)
+    {
+        $this->userManager = $userManager;
     }
 
-    public function getUserAction()
+    public function getUsersAction(Request $request)
     {
         $statusCode = $this->defaultResponseCode;
+        $result = [];
 
-        return new JsonResponse([], $statusCode);
+        try {
+            $limit = (int)$request->query->get('limit');
+            $offset = (int)$request->query->get('offset');
+            $filter = (int)$request->query->get('filter');
+
+            $this->userManager->getUsers();
+        } catch (Exception $exception) {
+            $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
+            $result = $exception->getMessage();
+        }
+
+        return new JsonResponse($result, $statusCode);
+    }
+
+    /**
+     * @param int $userId
+     *
+     * @return JsonResponse
+     */
+    public function getUserAction($userId = 0)
+    {
+        $statusCode = $this->defaultResponseCode;
+        $result = [];
+
+        return new JsonResponse($result, $statusCode);
     }
 }

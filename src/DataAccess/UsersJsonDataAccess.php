@@ -1,0 +1,43 @@
+<?php
+
+namespace App\DataAccess;
+
+use App\Entity\User;
+
+/**
+ * Class UsersJsonDataAccess
+ * @package App\DataAccess
+ */
+class UsersJsonDataAccess extends AbstractDataAccess
+{
+    protected $fileName = 'testtakers.json';
+
+    /**
+     * @param string $content
+     *
+     * @return array
+     */
+    public function serializeContent($content)
+    {
+        $entitiesArray = [];
+        $contentArray = json_decode($content, true);
+
+        foreach ($contentArray as $userJson) {
+            $newUser = new User();
+
+            $newUser->setAddress($userJson['address']);
+            $newUser->setEmail($userJson['email']);
+            $newUser->setFirstName($userJson['firstname']);
+            $newUser->setLastName($userJson['lastname']);
+            $newUser->setGender($userJson['gender']);
+            $newUser->setLogin($userJson['login']);
+            $newUser->setPassword($userJson['password']);
+            $newUser->setTitle($userJson['title']);
+            $newUser->setPicture($userJson['picture']);
+
+            $entitiesArray[] = $newUser;
+        }
+
+        return $entitiesArray;
+    }
+}
